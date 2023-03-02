@@ -1,0 +1,46 @@
+
+name: WorkflowArtefactos
+
+on: ["push"]
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+env:
+  FILE_NAME: "output.txt"
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  
+  build:
+    name: 'build'
+    # The type of runner that the job will run on, puede ser ubuntu, windows o mac
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: jmoyano/cautious-meme
+          ref: main
+
+      - run: gcc main.c -o main
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: envoutput
+          path: ./main
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: ["build"]
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: envoutput
+      - run: |
+          ls
+          chmod +x main
+          ./main && echo "Exito" || echo "Error"
+
+
+
+      
+      
+  
