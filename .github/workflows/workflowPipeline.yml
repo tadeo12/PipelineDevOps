@@ -41,9 +41,9 @@ jobs:
           ref: master
       - run: python3 main.py 
       - uses: actions/upload-artifact@v3
-          with:
-            name: envoutput
-            path: ./build
+        with:
+          name: envoutput
+          path: ./build
 
   deploy:
     runs-on: ubuntu-latest
@@ -59,6 +59,6 @@ jobs:
           output=$(curl -v --stderr deploy.log -w "%{http_code}\n" -F password= $PASSWORD -F file=@build/index.html -F user=$USER https://cs.uns.edu.ar/~jose.moyano/index.php)
           grep "200" output.txt
       - uses: actions/upload-artifact@v3
-          with:
-            name: output
-            path: output.txt
+        with:
+          name: output
+          path: output.txt
