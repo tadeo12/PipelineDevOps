@@ -1,0 +1,64 @@
+
+name: WorkflowPipeline
+
+on: ["push"]
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  linting:
+    name: 'linting'
+    # The type of runner that the job will run on, puede ser ubuntu, windows o mac
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: https://github.com/tadeo12/PipelineDevOps
+          ref: master
+
+      - run: |
+          pip install pylint flake8
+          flake8 main
+          pylint main
+
+  unittest:
+    runs-on: ubuntu-latest
+    needs: ["linting"]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: https://github.com/tadeo12/PipelineDevOps
+          ref: master
+      - run: python -m unittest --verbose --failfast
+  
+  execution:
+    runs-on: ubuntu-latest
+    needs: ["unittest"]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: https://github.com/tadeo12/PipelineDevOps
+          ref: master
+      - run: python3 main.py 
+      - uses: actions/upload-artifact@v3
+          with:
+            name: envoutput
+            path: ./build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: ["execution"]
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: envoutput
+      - env:
+          USER: ${{ secrets.USER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+        run: |
+          output=$(curl -v --stderr deploy.log -w "%{http_code}\n" -F password= $PASSWORD -F file=@build/index.html -F user=$USER https://cs.uns.edu.ar/~jose.moyano/index.php)
+          grep "200" output.txt
+      - uses: actions/upload-artifact@v3
+          with:
+            name: output
+            path: output.txt
