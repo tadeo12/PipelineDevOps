@@ -18,8 +18,8 @@ jobs:
 
       - run: |
           pip install pylint flake8
-          flake8 main
-          pylint main
+          flake8 main.py
+          pylint main.py
 
   unittest:
     runs-on: ubuntu-latest
