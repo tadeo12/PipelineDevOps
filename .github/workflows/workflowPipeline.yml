@@ -56,7 +56,7 @@ jobs:
           USER: ${{ secrets.USER }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          output=$(curl -v --stderr deploy.log -w "%{http_code}\n" -F password=$PASSWORD -F file=@build/index.html -F user=$USER https://cs.uns.edu.ar/~jose.moyano/index.php)
+          output=$(curl -v --stderr deploy.log -w "%{http_code}\n" -F password=$PASSWORD -F file=@index.html -F user=$USER https://cs.uns.edu.ar/~jose.moyano/index.php)
           echo $output | grep "200"
       - uses: actions/upload-artifact@v3
         with:
