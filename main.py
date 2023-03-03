@@ -1,9 +1,10 @@
 """
-This module create a 'build' directory if it doesn't exist 
-and write a simple "index.html" file in it
+This module creates a 'build' directory if it doesn't exist
+and writes a simple "index.html" file in it.
 """
 
 import os
+
 
 def create_index_html():
     # Create a 'build' directory if it doesn't exist
