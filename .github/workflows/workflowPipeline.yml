@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: https://github.com/tadeo12/PipelineDevOps
+          repository: tadeo12/PipelineDevOps
           ref: master
       - run: python3 main.py 
       - uses: actions/upload-artifact@v3
