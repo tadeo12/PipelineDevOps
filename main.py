@@ -45,7 +45,4 @@ def main():
 
 
 if __name__ == '__main__':
-    """
-    Runs the main function if this module is run as the main program.
-    """
     main()
