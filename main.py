@@ -1,6 +1,6 @@
 """
-This module create a 'build' directory if it doesn't exist 
-and write a simple "index.html" file in it
+This module creates a 'build' directory if it doesn't exist
+and writes a simple "index.html" file in it.
 """
 
 import os
@@ -10,7 +10,7 @@ if not os.path.exists('build'):
     os.makedirs('build')
 
 # Define the content of the HTML file
-HTML_CONTENT= '''
+HTML_CONTENT = '''
 <!DOCTYPE html>
 <html>
 <head>
